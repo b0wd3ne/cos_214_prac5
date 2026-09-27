@@ -9,9 +9,14 @@ void CommunicationsCentre::addChannel(NotificationChannel* channel) {
     channels_.push_back(channel);
 }
 
-void CommunicationsCentre::broadcastAlert(const AlertMessage& alert) {
-    bool anySucceeded = false;
+void CommunicationsCentre::broadcastAlert(const std::string& areaName, Severity severity,
+                                           const std::string& message) {
+    AlertMessage alert;
+    alert.text = message;
+    alert.severity = severity;
+    alert.areaName = areaName;
 
+    bool anySucceeded = false;
     for (std::vector<NotificationChannel*>::iterator it = channels_.begin(); it != channels_.end(); ++it) {
         NotificationChannel* channel = *it;
         try {
@@ -24,8 +29,12 @@ void CommunicationsCentre::broadcastAlert(const AlertMessage& alert) {
     }
 
     if (!anySucceeded) {
-        Logger::log("[COMMS] All channels failed to deliver the alert for " + alert.areaName);
+        Logger::log("[COMMS] All channels failed to deliver the alert for " + areaName);
     }
+}
+
+void CommunicationsCentre::broadcastEvacuation(const std::string& areaName, const std::string& message) {
+    broadcastAlert(areaName, Severity::Critical, "EVACUATE: " + message);
 }
 
 void CommunicationsCentre::handle(const ResponseEvent& e) {

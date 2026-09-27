@@ -7,8 +7,8 @@ class AccessControlCentre : public ResponseComponent {
 public:
     AccessControlCentre(CampusArea* campusRoot, ResponseMediator* mediator);
 
-    AccessMode secureArea(const std::string& areaName, AccessMode mode);
-
+    void setAreaAccess(const std::string& areaName, AccessMode mode);
+    AccessMode areaAccess(const std::string& areaName) const;
     void handle(const ResponseEvent& e) override;
 
 private:

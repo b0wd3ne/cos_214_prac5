@@ -1,27 +1,26 @@
-#ifndef COMMUNICATIONSCENTRE_H
-#define COMMUNICATIONSCENTRE_H
+#ifndef COMMUNICATIONS_CENTRE_H
+#define COMMUNICATIONS_CENTRE_H
+
+#include <string>
 #include <vector>
+#include "../common/Types.h"
 #include "../response/ResponseComponent.h"
 #include "NotificationChannel.h"
 
-// Mediator colleague, and the Receiver for IssueAlertCommand /
-// EvacuationOrderCommand. Holds non-owning pointers to channels; the channel
-// objects themselves are owned by CampusGuardSystem (the composition root).
 class CommunicationsCentre : public ResponseComponent {
-public:
-    explicit CommunicationsCentre(ResponseMediator* mediator);
+ public:
+  explicit CommunicationsCentre(ResponseMediator* mediator);
 
-    void addChannel(NotificationChannel* channel); // non-owning
+  void addChannel(NotificationChannel* channel); // non-owning;
 
-    // Sends the alert on every registered channel. If one channel throws
-    // CommsFailure, that failure is logged and the remaining channels still
-    // get a chance to deliver the alert.
-    void broadcastAlert(const AlertMessage& alert);
+  void broadcastAlert(const std::string& areaName, Severity severity,
+                       const std::string& message);
+  void broadcastEvacuation(const std::string& areaName, const std::string& message);
 
-    void handle(const ResponseEvent& e) override;
+  void handle(const ResponseEvent& e) override;
 
-private:
-    std::vector<NotificationChannel*> channels_; // non-owning
+ private:
+  std::vector<NotificationChannel*> channels_; // non-owning
 };
 
-#endif
+#endif  // CAMPUSGUARD_COMMS_COMMUNICATIONS_CENTRE_H

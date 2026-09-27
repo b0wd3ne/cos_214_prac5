@@ -4,6 +4,12 @@
 #include <string>
 #include "Types.h"
 
+// THIS WAS ADDED BY PERSON C - NJABULO 
+// THESE ARE STRING HELPERS, SEPARATE FROM TYPES.H
+// ANYONE CAN INCLUDE THIS ALONGSIDE TYPES.H
+// ----------------------------------------------
+// DIDN'T WANT TO MODIFY IT AND RISK CONFLICTS
+
 inline std::string toString(AccessMode mode) {
     switch (mode) {
         case AccessMode::Open:       return "Open";
