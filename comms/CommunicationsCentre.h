@@ -1,26 +1,26 @@
-#ifndef CAMPUSGUARD_COMMS_COMMUNICATIONS_CENTRE_H
-#define CAMPUSGUARD_COMMS_COMMUNICATIONS_CENTRE_H
-
-// =====================================================================
-// STUB - owned by Person C (Adapter / comms slice).
-// Agreed CONTRACT that IssueAlertCommand and EvacuationOrderCommand code
-// against. Person C replaces this with the real class, which will fan a
-// message out across every registered NotificationChannel, including the
-// LegacyPagerAdapter. Do not change these signatures without telling A.
-// =====================================================================
+#ifndef COMMUNICATIONS_CENTRE_H
+#define COMMUNICATIONS_CENTRE_H
 
 #include <string>
-
+#include <vector>
 #include "../common/Types.h"
+#include "../response/ResponseComponent.h"
+#include "NotificationChannel.h"
 
-class CommunicationsCentre {
+class CommunicationsCentre : public ResponseComponent {
  public:
-  virtual ~CommunicationsCentre() {}
+  explicit CommunicationsCentre(ResponseMediator* mediator);
 
-  virtual void broadcastAlert(const std::string& areaName, Severity severity,
-                               const std::string& message) = 0;
-  virtual void broadcastEvacuation(const std::string& areaName,
-                                    const std::string& message) = 0;
+  void addChannel(NotificationChannel* channel); // non-owning;
+
+  void broadcastAlert(const std::string& areaName, Severity severity,
+                       const std::string& message);
+  void broadcastEvacuation(const std::string& areaName, const std::string& message);
+
+  void handle(const ResponseEvent& e) override;
+
+ private:
+  std::vector<NotificationChannel*> channels_; // non-owning
 };
 
 #endif  // CAMPUSGUARD_COMMS_COMMUNICATIONS_CENTRE_H

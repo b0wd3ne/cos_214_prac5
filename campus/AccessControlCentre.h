@@ -1,23 +1,18 @@
-#ifndef CAMPUSGUARD_CAMPUS_ACCESS_CONTROL_CENTRE_H
-#define CAMPUSGUARD_CAMPUS_ACCESS_CONTROL_CENTRE_H
+#ifndef ACCESSCONTROLCENTRE_H
+#define ACCESSCONTROLCENTRE_H
+#include "../response/ResponseComponent.h"
+#include "CampusArea.h"
 
-// =====================================================================
-// STUB - owned by Person C (Composite / campus slice).
-// Agreed CONTRACT that SecureAreaCommand codes against. Person C replaces
-// this with the real class, which will walk the CampusArea/Building/Zone
-// composite tree. Do not change these signatures without telling Person A.
-// =====================================================================
+class AccessControlCentre : public ResponseComponent {
+public:
+    AccessControlCentre(CampusArea* campusRoot, ResponseMediator* mediator);
 
-#include <string>
+    void setAreaAccess(const std::string& areaName, AccessMode mode);
+    AccessMode areaAccess(const std::string& areaName) const;
+    void handle(const ResponseEvent& e) override;
 
-#include "../common/Types.h"
-
-class AccessControlCentre {
- public:
-  virtual ~AccessControlCentre() {}
-
-  virtual void setAreaAccess(const std::string& areaName, AccessMode mode) = 0;
-  virtual AccessMode areaAccess(const std::string& areaName) const = 0;
+private:
+    CampusArea* campusRoot_; // non-owning
 };
 
-#endif  // CAMPUSGUARD_CAMPUS_ACCESS_CONTROL_CENTRE_H
+#endif
