@@ -1,26 +1,27 @@
-#ifndef CAMPUSGUARD_COMMS_COMMUNICATIONS_CENTRE_H
-#define CAMPUSGUARD_COMMS_COMMUNICATIONS_CENTRE_H
+#ifndef COMMUNICATIONSCENTRE_H
+#define COMMUNICATIONSCENTRE_H
+#include <vector>
+#include "../response/ResponseComponent.h"
+#include "NotificationChannel.h"
 
-// =====================================================================
-// STUB - owned by Person C (Adapter / comms slice).
-// Agreed CONTRACT that IssueAlertCommand and EvacuationOrderCommand code
-// against. Person C replaces this with the real class, which will fan a
-// message out across every registered NotificationChannel, including the
-// LegacyPagerAdapter. Do not change these signatures without telling A.
-// =====================================================================
+// Mediator colleague, and the Receiver for IssueAlertCommand /
+// EvacuationOrderCommand. Holds non-owning pointers to channels; the channel
+// objects themselves are owned by CampusGuardSystem (the composition root).
+class CommunicationsCentre : public ResponseComponent {
+public:
+    explicit CommunicationsCentre(ResponseMediator* mediator);
 
-#include <string>
+    void addChannel(NotificationChannel* channel); // non-owning
 
-#include "../common/Types.h"
+    // Sends the alert on every registered channel. If one channel throws
+    // CommsFailure, that failure is logged and the remaining channels still
+    // get a chance to deliver the alert.
+    void broadcastAlert(const AlertMessage& alert);
 
-class CommunicationsCentre {
- public:
-  virtual ~CommunicationsCentre() {}
+    void handle(const ResponseEvent& e) override;
 
-  virtual void broadcastAlert(const std::string& areaName, Severity severity,
-                               const std::string& message) = 0;
-  virtual void broadcastEvacuation(const std::string& areaName,
-                                    const std::string& message) = 0;
+private:
+    std::vector<NotificationChannel*> channels_; // non-owning
 };
 
-#endif  // CAMPUSGUARD_COMMS_COMMUNICATIONS_CENTRE_H
+#endif
