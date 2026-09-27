@@ -13,7 +13,7 @@
 // codes into a CommsFailure exception.
 class LegacyPagerAdapter : public NotificationChannel {
 public:
-    // explicit LegacyPagerAdapter(std::unique_ptr<LegacyPagerGateway> gateway);
+    explicit LegacyPagerAdapter(std::unique_ptr<LegacyPagerGateway> gateway);
 
     void send(const AlertMessage& alert) override; // throws CommsFailure
     std::string channelName() const override { return "LegacyPager"; }
@@ -27,7 +27,7 @@ private:
     std::string zoneCodeFor(const std::string& areaName) const;
     static std::string truncateTo80(const std::string& text);
 
-    // std::unique_ptr<LegacyPagerGateway> gateway_; // owns its adaptee
+    std::unique_ptr<LegacyPagerGateway> gateway_; // owns its adaptee
     std::map<std::string, std::string> zoneCodes_;
 };
 
