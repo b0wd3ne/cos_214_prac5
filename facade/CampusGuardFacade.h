@@ -1,6 +1,6 @@
 #ifndef CAMPUSGUARDFACADE_H
 #define CAMPUSGUARDFACADE_H
-// #include <functional>
+#include <functional>
 #include <string>
 #include "../campus/AccessControlCentre.h"
 #include "../comms/CommunicationsCentre.h"
