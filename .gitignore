@@ -1,0 +1,9 @@
+*.o
+*.d
+campusguard
+*.log
+core
+vgcore.*
+.vscode/
+.idea/
+.DS_Store
