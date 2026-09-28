@@ -17,13 +17,13 @@ void DispatchUnitCommand::execute() {
   unit_.dispatchTo(incident_);  // real domain behaviour on the receiver
   incident_.dispatch();         // drives the incident's State transition
   executed_ = true;
-  Logger::log("COMMAND", "Dispatched " + unit_.name() + " to incident #" +
+  Logger::log("[COMMAND] Dispatched " + unit_.name() + " to incident #" +
                               std::to_string(incident_.id()));
 }
 
 void DispatchUnitCommand::undo() {
   if (!executed_) return;
-  Logger::log("COMMAND", "Undo: recalling " + unit_.name() +
+  Logger::log("[COMMAND] Undo: recalling " + unit_.name() +
                               " from incident #" +
                               std::to_string(incident_.id()));
   executed_ = false;
