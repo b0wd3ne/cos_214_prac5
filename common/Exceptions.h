@@ -36,4 +36,13 @@ public:
 };
 // --
 
+// --- Added by Person A ----------------------------------------------------
+// Needed for OperatorConsole::undoLast()'s failure case: nothing left to undo.
+class EmptyHistoryException : public std::runtime_error {
+public:
+    explicit EmptyHistoryException(const std::string& msg)
+        : std::runtime_error(msg) {}
+};
+// --
+
 #endif // EXCEPTIONS_H
