@@ -12,10 +12,10 @@ public:
     MedicalTeam(const std::string& name, ResponseMediator* mediator);
     ~MedicalTeam() override;
 
-    void dispatchTo(Incident& incident);
+    void dispatchTo(Incident& incident) override;
     void handle(const ResponseEvent& e) override;
 
-    bool isAvailable() const { return available_; }
+    bool isAvailable() const override { return available_; }
 
 private:
     bool available_;
