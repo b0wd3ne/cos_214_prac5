@@ -10,7 +10,7 @@ Incident::Incident(int id, const std::string& description, IncidentType type,
       severity_(severity),
       areaName_(areaName),
       state_(new ReportedState()) {
-  Logger::log("STATE", "Incident #" + std::to_string(id_) + " (" +
+  Logger::log("[STATE] Incident #" + std::to_string(id_) + " (" +
                             description_ + ") created in state Reported");
 }
 
@@ -30,6 +30,6 @@ void Incident::setState(std::unique_ptr<IncidentState> newState) {
   // earlier in a transition method, or reading a member after calling it,
   // is a real use-after-free bug and a good candidate for the GDB task.
   state_ = std::move(newState);
-  Logger::log("STATE", "Incident #" + std::to_string(id_) + ": " + from +
+  Logger::log("[STATE] Incident #" + std::to_string(id_) + ": " + from +
                             " -> " + to);
 }
