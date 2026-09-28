@@ -14,7 +14,7 @@ IssueAlertCommand::IssueAlertCommand(CommunicationsCentre& comms,
 void IssueAlertCommand::execute() {
   comms_.broadcastAlert(areaName_, severity_, message_);
   executed_ = true;
-  Logger::log("COMMAND", "Issued alert for " + areaName_ + ": " + message_);
+  Logger::log("[COMMAND] Issued alert for " + areaName_ + ": " + message_);
 }
 
 void IssueAlertCommand::undo() {
@@ -22,7 +22,7 @@ void IssueAlertCommand::undo() {
   comms_.broadcastAlert(areaName_, severity_,
                          "Correction: previous alert for " + areaName_ +
                              " has been withdrawn");
-  Logger::log("COMMAND", "Undo: withdrawal notice sent for " + areaName_);
+  Logger::log("[COMMAND] Undo: withdrawal notice sent for " + areaName_);
   executed_ = false;
 }
 
