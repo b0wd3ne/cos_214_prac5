@@ -19,6 +19,16 @@ public:
     // Subclasses react to events routed to them by the mediator.
     virtual void handle(const ResponseEvent& e) = 0;
 
+    // --- Added by Person A -------------------------------------------
+    // Needed so DispatchUnitCommand can hold a plain ResponseComponent&
+    // receiver without knowing which concrete team it is. SecurityTeam,
+    // MedicalTeam and FacilitiesCrew override both. AccessControlCentre
+    // and CommunicationsCentre are colleagues that are never "dispatched",
+    // so they simply keep these harmless defaults.
+    virtual void dispatchTo(Incident& incident) { (void)incident; }
+    virtual bool isAvailable() const { return true; }
+    // --
+
     const std::string& name() const { return name_; }
 
 protected:
