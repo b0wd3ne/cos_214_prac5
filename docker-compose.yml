@@ -1,0 +1,28 @@
+# CampusGuard - COS 214 Practical 5
+#
+# Demo:                docker compose up --build
+# GDB/Valgrind session: docker compose run --rm tools bash
+#                        then inside the container: gdb ./campusguard
+#                                                or: valgrind --leak-check=full --show-leak-kinds=all ./campusguard
+
+services:
+  campusguard:
+    build: .
+    container_name: campusguard
+    stdin_open: true
+    tty: true
+
+  # Same image, but started with a shell instead of the app, and with the
+  # extra permissions GDB needs to attach inside a container. Not started
+  # by `docker compose up`; run explicitly when needed.
+  tools:
+    build: .
+    container_name: campusguard-tools
+    entrypoint: ["bash"]
+    stdin_open: true
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    profiles: ["tools"]
