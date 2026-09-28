@@ -22,7 +22,7 @@ void SecureAreaCommand::execute() {
   previousMode_ = access_.areaAccess(areaName_);
   access_.setAreaAccess(areaName_, newMode_);
   executed_ = true;
-  Logger::log("COMMAND", "Set " + areaName_ + " access to " +
+  Logger::log("[COMMAND] Set " + areaName_ + " access to " +
                               modeName(newMode_) + " (was " +
                               modeName(previousMode_) + ")");
 }
@@ -30,7 +30,7 @@ void SecureAreaCommand::execute() {
 void SecureAreaCommand::undo() {
   if (!executed_) return;
   access_.setAreaAccess(areaName_, previousMode_);
-  Logger::log("COMMAND", "Undo: restored " + areaName_ + " access to " +
+  Logger::log("[COMMAND] Undo: restored " + areaName_ + " access to " +
                               modeName(previousMode_));
   executed_ = false;
 }
